@@ -6,7 +6,7 @@ import styles from "./App.module.css";
 
 function App(): ReactElement {
   return (
-    <>
+    <div className={styles["container-body"]}>
       <NavigationBar
         links={[
           { linkTitle: "Home", linkAddress: "/" },
@@ -24,13 +24,12 @@ function App(): ReactElement {
         <Outlet />
       </main>
       <footer className={styles["container-footer"]}>
-        <span>Author: Ismael Valenzuela</span>
-        <a href="https://github.com/Ishm4el">Github Profile</a>
+        <a href="https://github.com/Ishm4el">Author: Ismael Valenzuela</a>
         <a href="https://github.com/Ishm4el/Image-Tagging-App">
           This Apps Repo
         </a>
       </footer>
-    </>
+    </div>
   );
 }
 
