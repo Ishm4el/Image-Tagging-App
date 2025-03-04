@@ -1,0 +1,14 @@
+@import "./colors.module.css";
+
+.container-main {
+}
+
+.container-footer {
+  display: flex;
+  justify-content: space-around;
+  background-image: linear-gradient(
+    to left,
+    var(--lightPrimaryBg),
+    var(--lightSecondaryBg)
+  );
+}
