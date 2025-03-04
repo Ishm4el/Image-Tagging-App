@@ -6,12 +6,14 @@ function App() {
     <>
       <NavigationBar
         links={[
-          { linkTitle: "TEST_TITLE1", linkAddress: "/TEST_ADDRESS1" },
-          { linkTitle: "TEST_TITLE2", linkAddress: "/TEST_ADDRESS2" },
+          { linkTitle: "Stages", linkAddress: "/Stages" },
+          { linkTitle: "Scoresboards", linkAddress: "/Scoreboards" },
+          { linkTitle: "About", linkAddress: "/About" },
         ]}
         webTitle={{
-          title: "TEST_WEB_TITLE",
+          title: "The Tagging Wizard",
           svgLink: appLogo,
+          homeRoute: "/",
         }}
       />
       <h1>Hello World</h1>

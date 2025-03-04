@@ -1,5 +1,9 @@
 .container-nav {
-  background-color: rgb(212, 238, 255);
+  background-image: linear-gradient(
+    to right,
+    rgb(247, 231, 247),
+    rgb(237, 237, 255)
+  );
 }
 
 .card-nav {
@@ -25,26 +29,43 @@
 .a-link {
   text-decoration: none;
   color: black;
+  transition: color 0.25s ease-in 0s;
 }
 
 .a-link:visited {
   text-decoration: none;
 }
 
-.a-link:hover {
+.a-link:hover, .a-link:focus {
   text-decoration: underline;
+  color: blue;
 }
 
 .a-link:active {
   text-decoration: underline;
 }
 
-.card-web-title {
+.container-web-title {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  gap: 15px;
   justify-content: center;
+}
+
+.card-web-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(to right, black, black);
+  transition: background-image 0.25s ease-in 1s;
+  -webkit-transition: background-image 0.25s ease-in 1s;
+}
+
+.card-web-title:hover, .card-web-title:focus {
+  cursor: pointer;
+  background-image: linear-gradient(to right, blue, purple);
 }
 
 .card-web-title span {
@@ -53,4 +74,10 @@
 
 .card-web-title img {
   height: 2.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.card-web-title:hover img, .card-web-title:focus img {
+  filter: drop-shadow(0 0 0.1em blue)
 }
