@@ -75,3 +75,25 @@ span {
 .card-text {
   composes: card-welcome;
 }
+
+.card-text a {
+  text-decoration: none;
+  color: rgb(160, 0, 75);
+  transition: color 0.25s ease-in 0s;
+  background-color: var(--lightPrimaryBg);
+  border: 1px solid var(--lightThirdBg);
+}
+
+.card-text a:hover,
+.card-text a:focus {
+  text-decoration: underline;
+  color: purple;
+}
+
+.card-text a:active {
+  text-decoration: underline;
+}
+
+.card-text a:visited {
+  text-decoration: none;
+}
