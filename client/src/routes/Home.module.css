@@ -1,26 +1,77 @@
 @import "../colors.module.css";
 
 .container-main {
-  flex: 1 0 auto;
-  border-image: linear-gradient(
-    45deg,
-    var(--lightPrimaryBg) 0%,
-    var(--lightSecondaryBg) 100%
-  ) 1;
-  border-radius: 10px;
-  border-width: 10px;
-  border-style: solid;
+  --border-radius: 0.5%;
+
+  background: linear-gradient(0.125turn, pink, 95%, rgb(255, 220, 220));
+  border-radius: var(--border-radius);
   margin: 2.5dvh 5dvw;
+  padding: 5vh;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.container-main::before {
+  border-radius: var(--border-radius);
+  content: "";
+  background-image: linear-gradient(
+    to right,
+    var(--lightPrimaryBg),
+    var(--lightThirdBg)
+  );
+  z-index: -1;
+  top: -10px;
+  left: -10px;
+  bottom: -10px;
+  right: -10px;
+  position: absolute;
 }
 
 .card-home-welcome {
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: space-between;
+  gap: 2dvh;
 }
 
-.something {
-  flex: 1 0 auto;
-  background-color: black;
+.card-welcome {
+  display: flex;
+  flex-flow: column;
+  border-image: linear-gradient(
+      to right,
+      var(--lightThirdBg),
+      var(--lightPrimaryBg)
+    )
+    1;
+  border-width: 5px;
+  border-style: solid;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5dvh;
+}
+
+span {
+  background: linear-gradient(to right top, rgb(156, 0, 156), rgb(0, 0, 0));
+  background-clip: text;
+  color: transparent;
+  background-size: 900%;
+  background-position: 0 50%;
+  text-shadow: 0 0 2em pink;
+  -webkit-text-fill-color: transparent;
+  animation: animate-background 3s infinite alternate linear;
+}
+
+@keyframes animate-background {
+  0% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.card-text {
+  composes: card-welcome;
 }
