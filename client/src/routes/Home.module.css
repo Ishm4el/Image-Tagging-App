@@ -1,0 +1,26 @@
+@import "../colors.module.css";
+
+.container-main {
+  flex: 1 0 auto;
+  border-image: linear-gradient(
+    45deg,
+    var(--lightPrimaryBg) 0%,
+    var(--lightSecondaryBg) 100%
+  ) 1;
+  border-radius: 10px;
+  border-width: 10px;
+  border-style: solid;
+  margin: 2.5dvh 5dvw;
+}
+
+.card-home-welcome {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.something {
+  flex: 1 0 auto;
+  background-color: black;
+}

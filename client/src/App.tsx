@@ -20,9 +20,7 @@ function App(): ReactElement {
           homeRoute: "/",
         }}
       />
-      <main className={styles["container-main"]}>
-        <Outlet />
-      </main>
+      <Outlet />
       <footer className={styles["container-footer"]}>
         <a href="https://github.com/Ishm4el">Author: Ismael Valenzuela</a>
         <a href="https://github.com/Ishm4el/Image-Tagging-App">
