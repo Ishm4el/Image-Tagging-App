@@ -1,0 +1,14 @@
+.container-main {
+  composes: container-main from "./Home.module.css";
+}
+
+.card-about-content {
+  background-color: white;
+  padding: 5dvh;
+  border: mistyrose 1dvh solid;
+  border-radius: 5px;
+}
+
+dd {
+    padding-left: 20px;
+}
