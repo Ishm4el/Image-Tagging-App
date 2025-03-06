@@ -36,7 +36,7 @@
   text-decoration: none;
 }
 
-.a-link:hover, .a-link:focus {
+.a-link:hover {
   text-decoration: underline;
   color: blue;
 }
