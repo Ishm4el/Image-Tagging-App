@@ -3,7 +3,7 @@
 .container-main {
   --border-radius: 0.5%;
 
-  background: linear-gradient(0.125turn, pink, 95%, rgb(255, 220, 220));
+  background: linear-gradient(0.125turn, mistyrose, 95%, rgb(255, 220, 220));
   border-radius: var(--border-radius);
   margin: 2.5dvh 5dvw;
   padding: 5vh;
