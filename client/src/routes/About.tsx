@@ -2,7 +2,7 @@ import styles from "./About.module.css";
 export default function About(): React.ReactElement {
   return (
     <main className={styles["container-main"]}>
-      <div className={styles["card-about-content"]}>
+      <section className={styles["card-about-content"]}>
         <h1>About</h1>
         <h2>Author</h2>
         <p>My name is Ismael Valenzuela</p>
@@ -27,7 +27,7 @@ export default function About(): React.ReactElement {
             </a>
           </dd>
         </dl>
-      </div>
+      </section>
     </main>
   );
 }
