@@ -1,24 +1,8 @@
-import {
-  NavigateFunction,
-  Outlet,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import styles from "./Stages.module.css";
 
 export default function Stages(): React.ReactElement {
   const navigate: NavigateFunction = useNavigate();
-  const location = useLocation();
-  const hideParentPath = ["/Stages/level_1"];
-  const shouldHideParent = hideParentPath.includes(location.pathname);
-
-  if (shouldHideParent) {
-    return (
-      <>
-        <Outlet />
-      </>
-    );
-  }
 
   return (
     <main className={styles["container-main"]}>
@@ -35,7 +19,7 @@ export default function Stages(): React.ReactElement {
           </dl>
           <button
             onClick={() => {
-              navigate("level_1");
+              navigate("Level_1");
             }}
           >
             Play
