@@ -6,12 +6,37 @@
 
 .container-main section {
   display: grid;
-  grid-template: repeat(auto-fill, minmax(150px, 1fr)) / repeat(4, 1fr);
+  grid-template: repeat(auto-fill, minmax(150px, 1fr)) / repeat(
+      auto-fill,
+      minmax(max(300px, 20%), 1fr)
+    );
   gap: 2vw;
 }
 
 .card-stage {
   composes: card-about-content from "./About.module.css";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1vw;
+}
+
+.card-stage-left {
+  flex: 2 1;
+}
+
+.card-stage-left dt {
+  color: darkblue;
+}
+
+.card-stage-left dd {
+  margin-bottom: 2dvh;
+}
+
+.card-stage-right {
+  flex: 3 1;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .card-stage:hover {
