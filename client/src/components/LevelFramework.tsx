@@ -7,7 +7,7 @@ export default function LevelFramework(): React.ReactElement {
     const arraySplitStage: readonly string[] = stage.split("_");
     const stageNumber: string = arraySplitStage[1];
     const imageLink: string =
-      "../../public/large_level_" + stageNumber + ".jpg";
+      "/large_level_" + stageNumber + ".jpg";
     return (
       <main className={styles["container-main"]}>
         <img

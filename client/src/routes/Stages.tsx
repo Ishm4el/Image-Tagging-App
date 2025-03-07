@@ -17,7 +17,7 @@ function CardLevelDescription({
   const arraySplitHref: readonly string[] = href.split("_");
   const stageNumber: string = arraySplitHref[1];
   const thumbnailLink: string =
-    "../../public/small_level_" + stageNumber + ".jpg";
+    "/small_level_" + stageNumber + ".jpg";
 
   return (
     <div className={styles["card-stage"]}>
@@ -31,7 +31,7 @@ function CardLevelDescription({
           <dd>{highscore}</dd>
         </dl>
       </div>
-      <div className={styles["card-stage  -right"]}>
+      <div className={styles["card-stage-right"]}>
         <img src={thumbnailLink} alt={thumbnailLink} />
         <button
           onClick={() => {
@@ -62,7 +62,7 @@ export default function Stages({ levels }: StagesProps): React.ReactElement {
   return (
     <main className={styles["container-main"]}>
       <header>
-        <h1>STAGES</h1>
+        <h1 className={styles["header-stage"]}>STAGES</h1>
       </header>
       <section className={styles["dashboard-stages"]}>{levelCards}</section>
     </main>

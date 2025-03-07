@@ -45,8 +45,45 @@
   flex: 3 1;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2dvh;
+}
+
+.card-stage-right img {
+  border: 0.5dvh plum solid;
+  border-radius: 5px;
 }
 
 .card-stage:hover {
   box-shadow: 0 0 1em pink;
+}
+
+.header-stage {
+  background: linear-gradient(to right top, rgb(70, 0, 70), rgb(255, 0, 255));
+  background-clip: text;
+  color: transparent;
+  background-size: 900%;
+  background-position: 0 50%;
+  text-shadow: 0 0 2em pink;
+  -webkit-text-fill-color: transparent;
+  animation: animate-background 3s infinite alternate linear;
+}
+
+@keyframes animate-background {
+  0% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.card-stage-right button {
+  background-color: rgb(250, 207, 250);
+}
+
+.card-stage-right button:hover {
+  background-color: rgb(195, 131, 255);
+  cursor: pointer;
 }
