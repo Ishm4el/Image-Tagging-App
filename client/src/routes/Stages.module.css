@@ -1,5 +1,4 @@
-@import "../colors.module.css";
-
+@import url("../colors.css");
 .container-main {
   composes: container-main from "./Home.module.css";
 }
@@ -14,7 +13,16 @@
 }
 
 .card-stage {
-  composes: card-about-content from "./About.module.css";
+  background-color: white;
+  padding: 5dvh;
+  border-image: linear-gradient(
+      to right,
+      var(--lightThirdBg),
+      var(--lightPrimaryBg)
+    )
+    1;
+  border-width: 5px;
+  border-style: solid;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,5 +1,4 @@
-@import "../colors.module.css";
-
+@import url("../colors.css");
 .container-main {
   composes: container-main from "./Home.module.css";
   background: linear-gradient(0.125turn, mistyrose, 95%, rgb(255, 220, 220));
