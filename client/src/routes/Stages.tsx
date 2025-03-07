@@ -54,6 +54,7 @@ export default function Stages({ levels }: StagesProps): React.ReactElement {
       title={level.title}
       highscore={level.highscore}
       thumbnailLink={level.thumbnailLink}
+      key={level.title}
     />
   ));
 
