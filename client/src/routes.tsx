@@ -5,7 +5,7 @@ import ErrorPage from "./ErrorPage";
 import Home from "./routes/Home";
 import About from "./routes/About";
 import Stages from "./routes/Stages";
-import Level_1 from "./routes/levels/Level_1";
+import LevelFramework from "./components/LevelFramework";
 
 const routes: RouteObject[] = [
   {
@@ -22,7 +22,7 @@ const routes: RouteObject[] = [
             index: true,
             element: <Stages levels={stagesLevelsArray} />,
           },
-          { path: "Level_1", element: <Level_1 /> },
+          { path: ":stage", element: <LevelFramework /> },
         ],
       },
     ],

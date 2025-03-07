@@ -5,17 +5,19 @@ type CardLevelDescriptionProps = {
   title: string;
   difficulty: "Easy" | "Medium" | "Hard";
   href: string;
-  thumbnailLink: string;
   highscore: string;
 };
 function CardLevelDescription({
   title,
   difficulty,
   href,
-  thumbnailLink,
   highscore,
 }: CardLevelDescriptionProps): React.ReactElement {
   const navigate: NavigateFunction = useNavigate();
+  const arraySplitHref: readonly string[] = href.split("_");
+  const stageNumber: string = arraySplitHref[1];
+  const thumbnailLink: string =
+    "../../public/small_level_" + stageNumber + ".jpg";
 
   return (
     <div className={styles["card-stage"]}>
@@ -53,7 +55,6 @@ export default function Stages({ levels }: StagesProps): React.ReactElement {
       href={level.href}
       title={level.title}
       highscore={level.highscore}
-      thumbnailLink={level.thumbnailLink}
       key={level.title}
     />
   ));
