@@ -17,7 +17,7 @@ function CardLevelDescription({
   const arraySplitHref: readonly string[] = href.split("_");
   const stageNumber: string = arraySplitHref[1];
   const thumbnailLink: string =
-    "/small_level_" + stageNumber + ".jpg";
+    "/level_thumbnails/small_level_" + stageNumber + ".jpg";
 
   return (
     <div className={styles["card-stage"]}>
