@@ -1,4 +1,3 @@
-@import url("../colors.css");
 .container-main {
   composes: container-main from "./Home.module.css";
 }
@@ -17,7 +16,7 @@
   padding: 5dvh;
   border-image: linear-gradient(
       to right,
-      var(--lightThirdBg),
+      var(--lightThirdlyBg),
       var(--lightPrimaryBg)
     )
     1;

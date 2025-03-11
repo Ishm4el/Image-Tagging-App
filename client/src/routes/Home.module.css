@@ -1,14 +1,5 @@
-:root {
-  --lightPrimaryBgHue: 300;
-  --lightSecondary: 240;
-  --lightThirdBg: 293;
-
-  --lightBaseBg: white;
-  --lightPrimaryBg: rgb(247, 231, 247);
-  --lightSecondaryBg: rgb(237, 237, 255);
-  --lightThirdBg: hsla(293, 100%, 63.5%, 0.54);
-}
-
+/* Error is being thrown from the compiler for this file alone */
+/* on the colors, work around was to add the colors here again. */
 .container-main {
   --border-radius: 0.5%;
 
@@ -26,7 +17,7 @@
   background-image: linear-gradient(
     to right,
     var(--lightPrimaryBg),
-    var(--lightThirdBg)
+    var(--lightThirdlyBg)
   );
   z-index: -1;
   top: -10px;
@@ -48,7 +39,7 @@
   flex-flow: column;
   border-image: linear-gradient(
       to right,
-      var(--lightThirdBg),
+      var(--lightThirdlyBg),
       var(--lightPrimaryBg)
     )
     1;
@@ -90,7 +81,7 @@ span {
   color: rgb(160, 0, 75);
   transition: color 0.25s ease-in 0s;
   background-color: var(--lightPrimaryBg);
-  border: 1px solid var(--lightThirdBg);
+  border: 1px solid var(--lightThirdlyBg);
 }
 
 .card-text a:hover,

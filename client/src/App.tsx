@@ -3,6 +3,7 @@ import NavigationBar from "./components/NavigationBar";
 import appLogo from "/personal-svgrepo-com.svg";
 import { Outlet } from "react-router-dom";
 import styles from "./App.module.css";
+import "./colors.css";
 
 function App(): ReactElement {
   return (

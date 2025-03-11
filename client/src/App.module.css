@@ -1,14 +1,8 @@
-@import "colors.css";
-
 .container-body {
   display: flex;
   flex-direction: column;
   height: 100dvh;
   justify-content: space-between;
-}
-
-.container-main {
-  flex: 1 0 auto;
 }
 
 .container-footer {

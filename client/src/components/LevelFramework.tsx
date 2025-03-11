@@ -11,6 +11,7 @@ export default function LevelFramework(): React.ReactElement {
     return (
       <main className={styles["container-main"]}>
         <img
+          className={styles["image-level"]}
           src={imageLink}
           alt={
             "wooden blocks with letters; source: " + imageSources[stageNumber]
