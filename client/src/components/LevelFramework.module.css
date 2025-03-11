@@ -1,7 +1,55 @@
-.image-level {
-    height: 20%;
-    width: auto;
+.container-main {
+  --border-radius: 0.5%;
+
+  background: linear-gradient(0.125turn, mistyrose, 95%, rgb(255, 220, 220));
+  border-radius: var(--border-radius);
+  margin: 2.5dvh 5dvw;
+  padding: 1vh;
+  position: relative;
+  box-sizing: border-box;
+
+  height: 80dvh;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2dvh;
+  align-items: center;
 }
 
-.container-main {
+.container-main::before {
+  border-radius: var(--border-radius);
+  content: "";
+  background-image: linear-gradient(
+    to right,
+    var(--lightPrimaryBg),
+    var(--lightThirdlyBg)
+  );
+  z-index: -1;
+  top: -10px;
+  left: -10px;
+  bottom: -10px;
+  right: -10px;
+  position: absolute;
+}
+
+.image-container {
+  flex: 1 1;
+  height: 50dvh;
+  width: 80dvw;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+}
+
+.image-level {
+  max-height: min(100%, 60dvw);
+  max-width: none;
+}
+
+.letter-button-active {
+  color: blue;
+}
+
+.letter-button-inactive {
+  color: red;
 }

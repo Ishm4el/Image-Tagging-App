@@ -8,6 +8,7 @@
 
 .card-nav {
   display: flex;
+  flex-flow: row wrap;
 }
 
 .container-links {
