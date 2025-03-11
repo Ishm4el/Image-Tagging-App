@@ -16,6 +16,10 @@
   align-items: center;
 }
 
+.container-main h1 {
+  color: purple;
+}
+
 .container-main::before {
   border-radius: var(--border-radius);
   content: "";

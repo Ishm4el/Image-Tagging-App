@@ -22,6 +22,7 @@ export default function LevelFramework(): React.ReactElement {
         else return { active: true, letter: letter.letter };
       })
     );
+    const [focusedLetter, setFocusedLetter] = useState(letters[0].letter);
     return (
       <main className={styles["container-main"]}>
         <h1>{arraySplitStage[0] + " " + arraySplitStage[1]}</h1>
@@ -41,7 +42,16 @@ export default function LevelFramework(): React.ReactElement {
               const yPercent = y / rect.height;
               const actualX = xPercent * target.naturalWidth;
               const actualY = yPercent * target.naturalHeight;
-              console.log("left? : ", actualX, "; top: ", actualY);
+              
+              // make a fetch request here
+              console.log(
+                "left? : ",
+                actualX,
+                "; top: ",
+                actualY,
+                "; focused letter: ",
+                focusedLetter
+              );
             }}
           />
         </div>
@@ -53,7 +63,10 @@ export default function LevelFramework(): React.ReactElement {
                 setLetters((prevLetters) => {
                   const newLetters = prevLetters.map((letter) => {
                     if (letter.letter !== theLetter) letter.active = false;
-                    else letter.active = true;
+                    else {
+                      letter.active = true;
+                      setFocusedLetter(letter.letter);
+                    }
                     return letter;
                   });
                   return newLetters;
