@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Levels {
+  title      String     @id @unique
+  difficulty Difficulty
+  letters    Letter[]
+  scoreboard Score[]
+}
+
+model Score {
+  id        Int      @id @default(autoincrement())
+  userName  String
+  createdAt DateTime @default(now())
+  startTime DateTime @db.Time()
+  endTime   DateTime @db.Time()
+  score     String
+
+  level      Levels @relation(fields: [leveltitle], references: [title])
+  leveltitle String
+}
+
+model Letter {
+  letter String @db.Char(1)
+  x      Int    @db.SmallInt
+  y      Int    @db.SmallInt
+  length Int    @db.SmallInt
+
+  level      Levels @relation(fields: [leveltitle], references: [title])
+  leveltitle String
+
+  @@id(fields: [leveltitle, letter])
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
