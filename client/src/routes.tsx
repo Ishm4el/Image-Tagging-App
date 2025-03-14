@@ -1,5 +1,4 @@
 import App from "./App";
-import stagesLevelsArray from "./levelsConfig";
 import type { RouteObject } from "react-router-dom";
 import ErrorPage from "./ErrorPage";
 import Home from "./routes/Home";
@@ -20,7 +19,7 @@ const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            element: <Stages levels={stagesLevelsArray} />,
+            element: <Stages />,
           },
           { path: ":stage", element: <LevelFramework /> },
         ],

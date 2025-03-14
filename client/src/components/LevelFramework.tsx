@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import styles from "./LevelFramework.module.css";
 import imageSources from "../imageSourceConfig";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import levelsInfo from "../levelsConfig";
 
 export default function LevelFramework(): React.ReactElement {

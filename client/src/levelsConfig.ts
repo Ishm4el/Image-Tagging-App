@@ -5,6 +5,7 @@ type CardLevelDescriptionProps = {
   highscore: string;
   letters: { letter: string }[];
 };
+
 const stagesLevelsArray: Array<CardLevelDescriptionProps> = [
   {
     difficulty: "Easy",
