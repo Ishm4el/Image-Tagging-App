@@ -45,7 +45,7 @@ model Letter {
 }
 
 enum Difficulty {
-  EASY
-  MEDIUM
-  HARD
+  Easy
+  Medium
+  Hard
 }
