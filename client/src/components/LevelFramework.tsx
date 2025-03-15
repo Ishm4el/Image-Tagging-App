@@ -43,7 +43,12 @@ export default function LevelFramework(): React.ReactElement {
       return <p>Server Error! {error}</p>;
     }
 
-    if (Array.isArray(letters)) {
+    if (
+      Array.isArray(letters) &&
+      letters.length &&
+      "active" in letters[0] &&
+      "letter" in letters[0]
+    ) {
       return (
         <main className={styles["container-main"]}>
           <h1>{arraySplitStage[0] + " " + arraySplitStage[1]}</h1>
@@ -74,6 +79,8 @@ export default function LevelFramework(): React.ReactElement {
                   "; focused letter: ",
                   focusedLetter
                 );
+
+                
               }}
             />
           </div>
