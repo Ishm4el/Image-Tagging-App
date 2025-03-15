@@ -14,4 +14,12 @@ const getStages = async (req: Request, res: Response): Promise<any> => {
   return res.json(rows);
 };
 
-export { getStages };
+const getBasicStage = async (req: Request, res: Response): Promise<any> => {
+  const levelName = req.params.stage.replace("_", " ");
+  const row = await prisma.letter.findMany({
+    where: { leveltitle: levelName },
+  });
+  return res.json(row);
+};
+
+export { getStages, getBasicStage };
