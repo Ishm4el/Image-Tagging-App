@@ -7,6 +7,8 @@
     "clientDev": "cd ./client && npm run dev",
     "clientPopulateImages": "node loadImages.js",
     "serverUpsertPackages": "cd ./server && npm i",
-    "serverDev": "cd ./server && npm run dev"
+    "serverDev": "cd ./server && npm run dev",
+    "serverSeed": "cd ./server && npx prisma db seed",
+    "init": "npm run clientUpsertPackages && npm run clientPopulateImages && npm run serverUpsertPackages && npm run serverSeed"
   }
 }

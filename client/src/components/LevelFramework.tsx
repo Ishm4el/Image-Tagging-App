@@ -8,6 +8,7 @@ export default function LevelFramework(): React.ReactElement {
   if (stage !== undefined) {
     const arraySplitStage: readonly string[] = stage.split("_");
     const stageNumber: string = arraySplitStage[1];
+    const levelTitle: string = arraySplitStage[0] + " " + arraySplitStage[1];
     const [letters, setLetters] = useState<any>(null);
     const [focusedLetter, setFocusedLetter] = useState<any>(null);
     const [error, setError] = useState(null);
@@ -29,9 +30,11 @@ export default function LevelFramework(): React.ReactElement {
               if (index !== 0)
                 return {
                   active: false,
+                  found: false,
                   letter: letter.letter,
+                  token: "",
                 };
-              else return { active: true, letter: letter.letter };
+              else return { active: true, found: false, letter: letter.letter };
             })
           );
           setFocusedLetter(response[0].letter);
@@ -51,7 +54,7 @@ export default function LevelFramework(): React.ReactElement {
     ) {
       return (
         <main className={styles["container-main"]}>
-          <h1>{arraySplitStage[0] + " " + arraySplitStage[1]}</h1>
+          <h1>{levelTitle}</h1>
           <div className={styles["image-container"]}>
             <img
               className={styles["image-level"]}
@@ -60,7 +63,7 @@ export default function LevelFramework(): React.ReactElement {
                 "wooden blocks with letters; source: " +
                 imageSources[stageNumber]
               }
-              onClick={(ev) => {
+              onClick={async (ev) => {
                 const target = ev.target as HTMLImageElement;
                 const rect = target.getBoundingClientRect();
                 const x = ev.clientX - rect.left;
@@ -70,17 +73,50 @@ export default function LevelFramework(): React.ReactElement {
                 const actualX = xPercent * target.naturalWidth;
                 const actualY = yPercent * target.naturalHeight;
 
-                // make a fetch request here
-                console.log(
-                  "left? : ",
-                  actualX,
-                  "; top: ",
-                  actualY,
-                  "; focused letter: ",
-                  focusedLetter
+                const bodyData = {
+                  x: actualX,
+                  y: actualY,
+                  letter:
+                    typeof focusedLetter === "string" ? focusedLetter : "ERROR",
+                  levelTitle,
+                };
+
+                const response = await fetch(
+                  `http://localhost:3000/tagging_game/confirm_coord`,
+                  {
+                    method: "POST",
+                    mode: "cors",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bodyData),
+                  }
                 );
 
-                
+                const responseData = await response.json();
+                if (responseData.found === true) {
+                  setLetters(
+                    (
+                      prevLetters: {
+                        letter: string;
+                        found: boolean;
+                        active: boolean;
+                        token: string;
+                      }[]
+                    ) => {
+                      const newLetters = prevLetters.map((letter) => {
+                        if (letter.active) {
+                          letter.token =
+                            typeof responseData.token === "string"
+                              ? responseData.token
+                              : "ERROR";
+                        }
+                        return letter;
+                      });
+                      return newLetters;
+                    }
+                  );
+                }
               }}
             />
           </div>
@@ -91,7 +127,14 @@ export default function LevelFramework(): React.ReactElement {
                   const theLetter: string = (ev.target as HTMLElement)
                     .innerHTML;
                   setLetters(
-                    (prevLetters: { letter: string; active: boolean }[]) => {
+                    (
+                      prevLetters: {
+                        letter: string;
+                        active: boolean;
+                        found: boolean;
+                        token: string;
+                      }[]
+                    ) => {
                       const newLetters = prevLetters.map((letter) => {
                         if (letter.letter !== theLetter) letter.active = false;
                         else {
