@@ -42,6 +42,26 @@ export default function LevelFramework(): React.ReactElement {
         .catch((error) => setError(error));
     }, []);
 
+    useEffect(() => {
+      if (Array.isArray(letters)) {
+        let allHaveTokens = true;
+        letters.forEach((value) => {
+          if (value === "") allHaveTokens = false;
+        });
+        if (allHaveTokens) {
+          fetch(`http://localhost:3000/tagging_game/confirm_victory`, {
+            method: "POST",
+            mode: "cors",
+            body: JSON.stringify({
+              tokens: letters.map((letter) => {
+                return letter.token;
+              }),
+            }),
+          });
+        }
+      }
+    }, [letters]);
+
     if (error) {
       return <p>Server Error! {error}</p>;
     }
@@ -110,6 +130,7 @@ export default function LevelFramework(): React.ReactElement {
                             typeof responseData.token === "string"
                               ? responseData.token
                               : "ERROR";
+                          letter.found = true;
                         }
                         return letter;
                       });
@@ -121,44 +142,48 @@ export default function LevelFramework(): React.ReactElement {
             />
           </div>
           <div>
-            {letters.map((letter) => (
-              <button
-                onClick={(ev) => {
-                  const theLetter: string = (ev.target as HTMLElement)
-                    .innerHTML;
-                  setLetters(
-                    (
-                      prevLetters: {
-                        letter: string;
-                        active: boolean;
-                        found: boolean;
-                        token: string;
-                      }[]
-                    ) => {
-                      const newLetters = prevLetters.map((letter) => {
-                        if (letter.letter !== theLetter) letter.active = false;
-                        else {
-                          letter.active = true;
-                          setFocusedLetter(letter.letter);
+            {letters.map((letter) => {
+              if (!letter.found)
+                return (
+                  <button
+                    onClick={(ev) => {
+                      const theLetter: string = (ev.target as HTMLElement)
+                        .innerHTML;
+                      setLetters(
+                        (
+                          prevLetters: {
+                            letter: string;
+                            active: boolean;
+                            found: boolean;
+                            token: string;
+                          }[]
+                        ) => {
+                          const newLetters = prevLetters.map((letter) => {
+                            if (letter.letter !== theLetter)
+                              letter.active = false;
+                            else {
+                              letter.active = true;
+                              setFocusedLetter(letter.letter);
+                            }
+                            return letter;
+                          });
+                          return newLetters;
                         }
-                        return letter;
-                      });
-                      return newLetters;
+                      );
+                    }}
+                    key={letter.letter}
+                    className={
+                      styles[
+                        letter.active
+                          ? "letter-button-active"
+                          : "letter-button-inactive"
+                      ]
                     }
-                  );
-                }}
-                key={letter.letter}
-                className={
-                  styles[
-                    letter.active
-                      ? "letter-button-active"
-                      : "letter-button-inactive"
-                  ]
-                }
-              >
-                {letter.letter}
-              </button>
-            ))}
+                  >
+                    {letter.letter}
+                  </button>
+                );
+            })}
           </div>
         </main>
       );

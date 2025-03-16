@@ -7,5 +7,6 @@ const routerTaggingGame: Router = Router();
 // routerTaggingGame.get("validate_completion", );
 
 routerTaggingGame.post("/confirm_coord", controllerTaggingGame.confirmCoord);
+routerTaggingGame.post("/confirm_victory", controllerTaggingGame.confirmVictory)
 
 export default routerTaggingGame;

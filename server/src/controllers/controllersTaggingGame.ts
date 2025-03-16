@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma/prisma";
-import { signToken } from "../utility/jwtHandler";
+import { decodeToken, signToken } from "../utility/jwtHandler";
 
 const confirmCoord = async (req: Request, res: Response) => {
   const userInput: {
@@ -34,4 +34,16 @@ const confirmCoord = async (req: Request, res: Response) => {
   } else res.json({ found: false });
 };
 
-export { confirmCoord };
+const confirmVictory = (req: Request, res: Response) => {
+  const tokens = req.body.tokens;
+  console.log(req.body);
+  let victory = false;
+  if (Array.isArray(tokens)) {
+    tokens.forEach((token) => {
+      const decoded = decodeToken(token);
+      console.log(decoded);
+    });
+  } else res.json({ victory });
+};
+
+export { confirmCoord, confirmVictory };
