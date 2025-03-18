@@ -12,6 +12,7 @@ export default function LevelFramework(): React.ReactElement {
     const [letters, setLetters] = useState<any>(null);
     const [focusedLetter, setFocusedLetter] = useState<any>(null);
     const [error, setError] = useState(null);
+    const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
     useEffect(() => {
       fetch(`http://localhost:3000/levels/basic/${stage}`, {
@@ -34,13 +35,28 @@ export default function LevelFramework(): React.ReactElement {
                   letter: letter.letter,
                   token: "",
                 };
-              else return { active: true, found: false, letter: letter.letter };
+              else
+                return {
+                  active: true,
+                  found: false,
+                  letter: letter.letter,
+                  token: "",
+                };
             })
           );
           setFocusedLetter(response[0].letter);
         })
         .catch((error) => setError(error));
     }, []);
+
+    useEffect(() => {
+      if (Array.isArray(letters)) {
+        for (let i = 0; i < letters.length; i++) {
+          if (letters[i].found === false) return;
+        }
+      }
+      setIsCompleted(true);
+    }, [letters]);
 
     useEffect(() => {
       if (Array.isArray(letters)) {
@@ -60,7 +76,7 @@ export default function LevelFramework(): React.ReactElement {
           });
         }
       }
-    }, [letters]);
+    }, [isCompleted]);
 
     if (error) {
       return <p>Server Error! {error}</p>;
@@ -70,7 +86,8 @@ export default function LevelFramework(): React.ReactElement {
       Array.isArray(letters) &&
       letters.length &&
       "active" in letters[0] &&
-      "letter" in letters[0]
+      "letter" in letters[0] &&
+      "found" in letters[0]
     ) {
       return (
         <main className={styles["container-main"]}>
@@ -115,28 +132,34 @@ export default function LevelFramework(): React.ReactElement {
 
                 const responseData = await response.json();
                 if (responseData.found === true) {
-                  setLetters(
-                    (
-                      prevLetters: {
-                        letter: string;
-                        found: boolean;
-                        active: boolean;
-                        token: string;
-                      }[]
-                    ) => {
-                      const newLetters = prevLetters.map((letter) => {
-                        if (letter.active) {
-                          letter.token =
-                            typeof responseData.token === "string"
-                              ? responseData.token
-                              : "ERROR";
-                          letter.found = true;
-                        }
-                        return letter;
-                      });
-                      return newLetters;
+                  const prevLetters: {
+                    letter: string;
+                    found: boolean;
+                    active: boolean;
+                    token: string;
+                  }[] = letters;
+
+                  console.log("declaring newLetters and UPDATED AGAIN");
+                  const newLetters = prevLetters.map((letter) => {
+                    if (letter.active) {
+                      letter.token =
+                        typeof responseData.token === "string"
+                          ? responseData.token
+                          : "ERROR";
+                      letter.found = true;
                     }
+                    return letter;
+                  });
+
+                  const indexOfNextFocus = newLetters.findIndex(
+                    (value) => value.active === false
                   );
+                  if (indexOfNextFocus !== -1) {
+                    console.log("in if without -1");
+                    newLetters[indexOfNextFocus].active = true;
+                    setFocusedLetter(newLetters[indexOfNextFocus].letter);
+                    setLetters([...newLetters]);
+                  } else setLetters([...newLetters]);
                 }
               }}
             />
@@ -179,6 +202,15 @@ export default function LevelFramework(): React.ReactElement {
                           : "letter-button-inactive"
                       ]
                     }
+                  >
+                    {letter.letter}
+                  </button>
+                );
+              else
+                return (
+                  <button
+                    key={letter.letter}
+                    className={styles["letter-button-found"]}
                   >
                     {letter.letter}
                   </button>

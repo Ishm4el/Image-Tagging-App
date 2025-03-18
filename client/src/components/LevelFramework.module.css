@@ -57,3 +57,13 @@
 .letter-button-inactive {
   color: red;
 }
+
+.letter-button-found {
+  color: green;
+  filter: opacity(40%);
+}
+
+.letter-button-found:focus {
+  outline: none;
+  border: none;
+}
