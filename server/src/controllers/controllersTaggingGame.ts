@@ -30,7 +30,11 @@ const confirmCoord = async (req: Request, res: Response) => {
     userInput.y <= row.y + row.length
   ) {
     // console.log("within box");
-    const token = signToken({ letter: userInput.letter, found: true });
+    const token = signToken({
+      letter: userInput.letter,
+      found: true,
+      levelTitle: userInput.levelTitle,
+    });
     res.json({ found: true, token });
   } else res.json({ found: false });
 };
@@ -38,29 +42,76 @@ const confirmCoord = async (req: Request, res: Response) => {
 interface verifyVictory extends JwtPayload {
   letter: string;
   found: boolean;
+  levelTitle: string;
+}
+
+interface verifyLevelToken extends JwtPayload {
+  levelTitle: string;
+  iat: number;
 }
 
 const isPayload = (token: string | JwtPayload): token is verifyVictory => {
   return (token as JwtPayload).iat !== undefined;
 };
 
-const confirmVictory = (req: Request, res: Response) => {
+const isLevelToken = (
+  token: string | JwtPayload
+): token is verifyLevelToken => {
+  return (token as JwtPayload).iat !== undefined;
+};
+
+const confirmVictory = async (req: Request, res: Response) => {
+  const currentTime = Math.floor(Date.now() / 1000);
   const tokens: Array<string> = req.body.tokens;
-  console.log("req.body: ", req.body);
-  let victory = false;
+  const levelToken: string = req.body.levelToken;
+  const decodedLevelToken: string | JwtPayload = decodeToken(levelToken);
+  console.log("decodedLevelToken: ", decodedLevelToken);
+
+  let victory = true;
   tokens.forEach((token) => {
     const decodedToken = decodeToken(token);
     const payload: verifyVictory | undefined = isPayload(decodedToken)
       ? decodedToken
       : undefined;
-    if (payload && payload.found === false) {
-      res.json({ victory });
-      return;
+    if (
+      payload &&
+      (payload.found === false ||
+        (typeof decodedLevelToken === "object" &&
+          decodedLevelToken.levelTitle !== payload.levelTitle))
+    ) {
+      victory = false;
     }
   });
 
-  victory = true;
-  res.json({ victory });
+  const intervalCalc =
+    currentTime - (isLevelToken(decodedLevelToken) ? decodedLevelToken.iat : 0);
+
+  const format = new Date(intervalCalc * 1000);
+  const minutes = "0" + format.getMinutes();
+  const seconds = "0" + format.getSeconds();
+  const toRecord = minutes.substring(-2) + ":" + seconds.substring(-2);
+
+  const row = await prisma.score.create({
+    data: {
+      endTime: new Date(currentTime * 1000),
+      startTime: new Date(
+        (isLevelToken(decodedLevelToken) ? decodedLevelToken.iat : 0) * 1000
+      ),
+      score: toRecord,
+      // to change based on userinput
+      userName: "PLACEHOLDER",
+      leveltitle: isLevelToken(decodedLevelToken)
+        ? decodedLevelToken.levelTitle
+        : "ERROR",
+    },
+  });
+
+  res.json({ victory, row });
 };
 
-export { confirmCoord, confirmVictory };
+const start = (req: Request, res: Response) => {
+  const token = signToken({ levelTitle: req.body.levelTitle });
+  res.json(token);
+};
+
+export { confirmCoord, confirmVictory, start };

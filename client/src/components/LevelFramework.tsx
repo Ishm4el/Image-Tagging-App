@@ -12,6 +12,7 @@ export default function LevelFramework(): React.ReactElement {
     const [letters, setLetters] = useState<any>(null);
     const [focusedLetter, setFocusedLetter] = useState<any>(null);
     const [error, setError] = useState(null);
+    const [levelToken, setLevelToken] = useState(null);
 
     useEffect(() => {
       fetch(`http://localhost:3000/levels/basic/${stage}`, {
@@ -24,15 +25,16 @@ export default function LevelFramework(): React.ReactElement {
           return response.json();
         })
         .then((response: Array<any>) => {
-          console.log("setting letters to: ", response);
           setLetters(
             response.map((letter, index) => {
+              console.log("letter: ", letter);
               if (index !== 0)
                 return {
                   active: false,
                   found: false,
                   letter: letter.letter,
                   token: "",
+                  levelTitle: letter.levelTitle,
                 };
               else
                 return {
@@ -40,12 +42,26 @@ export default function LevelFramework(): React.ReactElement {
                   found: false,
                   letter: letter.letter,
                   token: "",
+                  levelTitle: letter.levelTitle,
                 };
             })
           );
           setFocusedLetter(response[0].letter);
         })
         .catch((error) => setError(error));
+
+      fetch(`http://localhost:3000/tagging_game/start`, {
+        method: "POST",
+        mode: "cors",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ levelTitle }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          setLevelToken(res);
+        });
     }, []);
 
     useEffect(() => {
@@ -69,6 +85,7 @@ export default function LevelFramework(): React.ReactElement {
           },
           body: JSON.stringify({
             tokens,
+            levelToken: levelToken,
           }),
         })
           .then((response) => {
@@ -159,7 +176,7 @@ export default function LevelFramework(): React.ReactElement {
                   });
 
                   const indexOfNextFocus = newLetters.findIndex(
-                    (value) => value.active === false && value.found === false 
+                    (value) => value.active === false && value.found === false
                   );
                   if (indexOfNextFocus !== -1) {
                     console.log("in if without -1");
