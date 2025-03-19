@@ -29,10 +29,12 @@ export default function LevelFramework(): React.ReactElement {
 
     useGameCompleted({ letters, levelToken, setCompleted });
 
+    // display if there is an error
     if (error) {
       return <p>Server Error! {error}</p>;
     }
 
+    //  display if the game is completed
     if (
       completed &&
       typeof completed === "object" &&
@@ -43,6 +45,7 @@ export default function LevelFramework(): React.ReactElement {
       );
     }
 
+    // display the game
     if (
       Array.isArray(letters) &&
       letters.length &&
@@ -62,5 +65,7 @@ export default function LevelFramework(): React.ReactElement {
       );
     }
   }
+
+  // display loading screen
   return <main className={styles["container-main"]}>LOADING</main>;
 }

@@ -44,6 +44,12 @@
 
 .a-link:active {
   text-decoration: underline;
+  color: blue;
+}
+
+.a-link:focus {
+  text-decoration: underline;
+  color: blue;
 }
 
 .container-web-title {
