@@ -12,7 +12,6 @@ export default function LevelFramework(): React.ReactElement {
     const [letters, setLetters] = useState<any>(null);
     const [focusedLetter, setFocusedLetter] = useState<any>(null);
     const [error, setError] = useState(null);
-    const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
     useEffect(() => {
       fetch(`http://localhost:3000/levels/basic/${stage}`, {
@@ -50,33 +49,38 @@ export default function LevelFramework(): React.ReactElement {
     }, []);
 
     useEffect(() => {
+      console.log("checking if the game is completed");
       if (Array.isArray(letters)) {
         for (let i = 0; i < letters.length; i++) {
           if (letters[i].found === false) return;
         }
-      }
-      setIsCompleted(true);
-    }, [letters]);
 
-    useEffect(() => {
-      if (Array.isArray(letters)) {
-        let allHaveTokens = true;
-        letters.forEach((value) => {
-          if (value === "") allHaveTokens = false;
+        const tokens = letters.map((letter) => {
+          return letter.token;
         });
-        if (allHaveTokens) {
-          fetch(`http://localhost:3000/tagging_game/confirm_victory`, {
-            method: "POST",
-            mode: "cors",
-            body: JSON.stringify({
-              tokens: letters.map((letter) => {
-                return letter.token;
-              }),
-            }),
+
+        // console.log("tokens: ", JSON.stringify(tokens));
+
+        fetch(`http://localhost:3000/tagging_game/confirm_victory`, {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tokens,
+          }),
+        })
+          .then((response) => {
+            if (response.status >= 400) throw new Error("server error");
+            console.log(response);
+            return response.json();
+          })
+          .then((response) => {
+            console.log(response);
           });
-        }
       }
-    }, [isCompleted]);
+    }, [letters]);
 
     if (error) {
       return <p>Server Error! {error}</p>;
@@ -141,18 +145,21 @@ export default function LevelFramework(): React.ReactElement {
 
                   console.log("declaring newLetters and UPDATED AGAIN");
                   const newLetters = prevLetters.map((letter) => {
-                    if (letter.active) {
+                    if (letter.active === true) {
+                      console.log(letter.letter);
+
                       letter.token =
                         typeof responseData.token === "string"
                           ? responseData.token
                           : "ERROR";
                       letter.found = true;
+                      letter.active = false;
                     }
                     return letter;
                   });
 
                   const indexOfNextFocus = newLetters.findIndex(
-                    (value) => value.active === false
+                    (value) => value.active === false && value.found === false 
                   );
                   if (indexOfNextFocus !== -1) {
                     console.log("in if without -1");

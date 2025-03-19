@@ -18,5 +18,5 @@ app.use("/tagging_game", routerTaggingGame);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-  console.log(`[server]: Database Password: `, process.env.DATABASE_PASSWORD);
 });
+ 
