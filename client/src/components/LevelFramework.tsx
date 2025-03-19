@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./LevelFramework.module.css";
 import imageSources from "../imageSourceConfig";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function LevelFramework(): React.ReactElement {
   const { stage } = useParams();
   if (stage !== undefined) {
+    const navigate = useNavigate();
     const arraySplitStage: readonly string[] = stage.split("_");
     const stageNumber: string = arraySplitStage[1];
     const levelTitle: string = arraySplitStage[0] + " " + arraySplitStage[1];
@@ -13,6 +14,7 @@ export default function LevelFramework(): React.ReactElement {
     const [focusedLetter, setFocusedLetter] = useState<any>(null);
     const [error, setError] = useState(null);
     const [levelToken, setLevelToken] = useState(null);
+    const [completed, setCompleted] = useState<any>(null);
 
     useEffect(() => {
       fetch(`http://localhost:3000/levels/basic/${stage}`, {
@@ -95,12 +97,46 @@ export default function LevelFramework(): React.ReactElement {
           })
           .then((response) => {
             console.log(response);
+            setCompleted(response);
           });
       }
     }, [letters]);
 
     if (error) {
       return <p>Server Error! {error}</p>;
+    }
+
+    if (
+      completed &&
+      typeof completed === "object" &&
+      "finalToken" in completed
+    ) {
+      return (
+        <main className={styles["container-main"]}>
+          <h1>{levelTitle}</h1>
+          <form
+            onSubmit={(ev) => {
+              ev.preventDefault();
+
+              fetch("http://localhost:3000/tagging_game/complete", {
+                method: "POST",
+                mode: "cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  finalToken: completed.finalToken,
+                  userName: (ev.target as HTMLFormElement).userName.value,
+                }),
+              }).then(() => {
+                navigate(-1);
+              });
+            }}
+          >
+            <label htmlFor="userName">Enter Name</label>
+            <input type="text" id="userName" name="userName" maxLength={4} />
+            <input type="submit" value="Submit" />
+          </form>
+        </main>
+      );
     }
 
     if (

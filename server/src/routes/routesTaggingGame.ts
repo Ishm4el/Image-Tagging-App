@@ -9,5 +9,6 @@ const routerTaggingGame: Router = Router();
 routerTaggingGame.post("/confirm_coord", controllerTaggingGame.confirmCoord);
 routerTaggingGame.post("/confirm_victory", controllerTaggingGame.confirmVictory);
 routerTaggingGame.post("/start", controllerTaggingGame.start);
+routerTaggingGame.post("/complete", controllerTaggingGame.complete)
 
 export default routerTaggingGame;

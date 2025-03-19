@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma/prisma";
 import { decodeToken, signToken } from "../utility/jwtHandler";
-import { Jwt, JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 
 const confirmCoord = async (req: Request, res: Response) => {
   const userInput: {
@@ -91,22 +91,18 @@ const confirmVictory = async (req: Request, res: Response) => {
   const seconds = "0" + format.getSeconds();
   const toRecord = minutes.substring(-2) + ":" + seconds.substring(-2);
 
-  const row = await prisma.score.create({
-    data: {
-      endTime: new Date(currentTime * 1000),
-      startTime: new Date(
-        (isLevelToken(decodedLevelToken) ? decodedLevelToken.iat : 0) * 1000
-      ),
-      score: toRecord,
-      // to change based on userinput
-      userName: "PLACEHOLDER",
-      leveltitle: isLevelToken(decodedLevelToken)
-        ? decodedLevelToken.levelTitle
-        : "ERROR",
-    },
+  const finalToken = signToken({
+    endTime: new Date(currentTime * 1000),
+    startTime: new Date(
+      (isLevelToken(decodedLevelToken) ? decodedLevelToken.iat : 0) * 1000
+    ),
+    score: toRecord,
+    leveltitle: isLevelToken(decodedLevelToken)
+      ? decodedLevelToken.levelTitle
+      : "ERROR",
   });
 
-  res.json({ victory, row });
+  res.json({ victory, finalToken, yourScore: toRecord });
 };
 
 const start = (req: Request, res: Response) => {
@@ -114,4 +110,28 @@ const start = (req: Request, res: Response) => {
   res.json(token);
 };
 
-export { confirmCoord, confirmVictory, start };
+interface finalToken extends verifyLevelToken {
+  endTime: Date;
+  score: string;
+}
+
+const complete = async (req: Request, res: Response) => {
+  const finalToken = decodeToken(req.body.finalToken) as finalToken;
+  const userName = req.body.userName;
+
+  console.log(finalToken.leveltitle);
+
+  const row = await prisma.score.create({
+    data: {
+      endTime: finalToken.endTime,
+      startTime: new Date(finalToken.iat * 1000),
+      score: finalToken.score,
+      userName: userName,
+      leveltitle: finalToken.leveltitle,
+    },
+  });
+
+  res.json({ done: true, row });
+};
+
+export { confirmCoord, confirmVictory, start, complete };
