@@ -31,22 +31,25 @@ const Completed = ({
               </tr>
             </tbody>
           </table>
-          <ul>
-            <li>
-              <Link to={"/stages"}>Return to Stage Selection</Link>
-            </li>
-            <li>
-              <Link
-                reloadDocument
-                to={`/stages/${levelTitle.replace(" ", "_")}`}
-              >
-                Replay Level
-              </Link>
-            </li>
-            <li>
-              <Link to={"/scoreboards"}>Scoreboards</Link>
-            </li>
-          </ul>
+
+          <nav>
+            <ul>
+              <li>
+                <Link to={"/stages"}>Stage Selection</Link>
+              </li>
+              <li>
+                <Link
+                  reloadDocument
+                  to={`/stages/${levelTitle.replace(" ", "_")}`}
+                >
+                  Replay Level
+                </Link>
+              </li>
+              <li>
+                <Link to={"/scoreboards"}>Scoreboards</Link>
+              </li>
+            </ul>
+          </nav>
         </section>
       ) : (
         <form

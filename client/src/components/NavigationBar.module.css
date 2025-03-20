@@ -47,10 +47,10 @@
   color: blue;
 }
 
-.a-link:focus {
+/* .a-link:focus {
   text-decoration: underline;
   color: blue;
-}
+} */
 
 .container-web-title {
   flex: 1 1 auto;

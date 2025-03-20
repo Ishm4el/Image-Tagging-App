@@ -121,8 +121,6 @@ const complete = async (req: Request, res: Response) => {
   const finalToken = decodeToken(req.body.finalToken) as finalToken;
   const userName = req.body.userName;
 
-  console.log(finalToken.leveltitle);
-
   const row = await prisma.score.create({
     data: {
       endTime: finalToken.endTime,
@@ -133,21 +131,23 @@ const complete = async (req: Request, res: Response) => {
     },
   });
 
-  const leaderBoardPlacement = await prisma.score.findMany({
-    where: { leveltitle: finalToken.levelTitle },
-    orderBy: {
-      score: "asc",
+  const title: string = finalToken.leveltitle;
+  console.log("title: ", title);
+
+  // determine user's ranking
+  const leaderBoardPlacement = await prisma.levels.findUnique({
+    where: { title: title },
+    include: {
+      scoreboard: { orderBy: [{ score: "asc" }, { createdAt: "desc" }] },
     },
-    // cursor: { id: row.id },
   });
 
   console.log("row.id: ", row.id);
+  const scoreboard = leaderBoardPlacement?.scoreboard;
 
-  const indexOfUserScore = leaderBoardPlacement.findIndex(
-    (e) => e.id === row.id
-  );
+  const indexOfUserScore = scoreboard?.findIndex((e) => e.id === row.id)! + 1;
 
-  console.log("indexOfUserScore: ", indexOfUserScore);
+  // console.log("indexOfUserScore: ", indexOfUserScore);
   console.log("leaderBoardPlacement: ", leaderBoardPlacement);
 
   res.json({ done: true, row, indexOfUserScore });
