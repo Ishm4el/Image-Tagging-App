@@ -89,8 +89,10 @@ const confirmVictory = async (req: Request, res: Response) => {
   const format = new Date(intervalCalc * 1000);
   const minutes = "0" + format.getMinutes();
   const seconds = "0" + format.getSeconds();
-  const toRecord = minutes.substring(-2) + ":" + seconds.substring(-2);
-
+  const toRecord =
+    minutes.substring(seconds.length - 2) +
+    ":" +
+    seconds.substring(seconds.length - 2);
   const finalToken = signToken({
     endTime: new Date(currentTime * 1000),
     startTime: new Date(
@@ -131,7 +133,24 @@ const complete = async (req: Request, res: Response) => {
     },
   });
 
-  res.json({ done: true, row });
+  const leaderBoardPlacement = await prisma.score.findMany({
+    where: { leveltitle: finalToken.levelTitle },
+    orderBy: {
+      score: "asc",
+    },
+    // cursor: { id: row.id },
+  });
+
+  console.log("row.id: ", row.id);
+
+  const indexOfUserScore = leaderBoardPlacement.findIndex(
+    (e) => e.id === row.id
+  );
+
+  console.log("indexOfUserScore: ", indexOfUserScore);
+  console.log("leaderBoardPlacement: ", leaderBoardPlacement);
+
+  res.json({ done: true, row, indexOfUserScore });
 };
 
 export { confirmCoord, confirmVictory, start, complete };

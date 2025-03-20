@@ -25,7 +25,7 @@ const Completed = ({
             </thead>
             <tbody>
               <tr>
-                <td>{results.row.id}</td>
+                <td>{results.indexOfUserScore}</td>
                 <td>{results.row.userName}</td>
                 <td>{results.row.score}</td>
               </tr>
@@ -36,7 +36,10 @@ const Completed = ({
               <Link to={"/stages"}>Return to Stage Selection</Link>
             </li>
             <li>
-              <Link reloadDocument to={`/stages/${levelTitle.replace(" ", "_")}`}>
+              <Link
+                reloadDocument
+                to={`/stages/${levelTitle.replace(" ", "_")}`}
+              >
                 Replay Level
               </Link>
             </li>
