@@ -5,6 +5,7 @@ import Home from "./routes/Home";
 import About from "./routes/About";
 import Stages from "./routes/Stages";
 import LevelFramework from "./components/LevelFramework";
+import Scoreboards from "./routes/Scoreboards";
 
 const routes: RouteObject[] = [
   {
@@ -24,6 +25,7 @@ const routes: RouteObject[] = [
           { path: ":stage", element: <LevelFramework /> },
         ],
       },
+      { path: "Scoreboards", element: <Scoreboards /> },
     ],
   },
 ];

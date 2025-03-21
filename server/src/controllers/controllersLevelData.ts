@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import prisma from "../../prisma/prisma";
-import { signToken } from "../utility/jwtHandler";
 
 const getStages = async (req: Request, res: Response): Promise<any> => {
   const rows = await prisma.levels.findMany({
     orderBy: { title: "asc" },
     include: { scoreboard: { orderBy: { score: "desc" }, take: 1 } },
   });
+  return res.json(rows);
+};
+
+const getStagesOnly = async (req: Request, res: Response): Promise<any> => {
+  const rows = await prisma.levels.findMany({ orderBy: { title: "asc" } });
   return res.json(rows);
 };
 
@@ -18,5 +22,18 @@ const getBasicStage = async (req: Request, res: Response): Promise<any> => {
   return res.json(row);
 };
 
-export { getStages, getBasicStage };
- 
+const getStageScoreboard = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  const levelTitle: string = req.params.stage;
+  const levelData = await prisma.levels.findUnique({
+    where: { title: levelTitle },
+    include: {
+      scoreboard: { orderBy: [{ score: "asc" }, { createdAt: "desc" }] },
+    },
+  });
+  res.json(levelData);
+};
+
+export { getStages, getStagesOnly, getBasicStage, getStageScoreboard };
