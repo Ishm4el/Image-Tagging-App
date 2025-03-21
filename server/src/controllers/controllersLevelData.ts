@@ -26,13 +26,15 @@ const getStageScoreboard = async (
   req: Request,
   res: Response
 ): Promise<any> => {
-  const levelTitle: string = req.params.stage;
+  const levelTitle: string = req.params.stage.replace("_", " ");
   const levelData = await prisma.levels.findUnique({
     where: { title: levelTitle },
     include: {
       scoreboard: { orderBy: [{ score: "asc" }, { createdAt: "desc" }] },
     },
   });
+  console.log("in getStageScoreboard\nPrinting levelData: ", levelData);
+
   res.json(levelData);
 };
 
