@@ -66,7 +66,7 @@ export default function Scoreboard(): React.ReactElement {
                     <tr>
                       <td>{score.userName}</td>
                       <td>{score.score}</td>
-                      <td>{score.createdAt.toString()}</td>
+                      <td>{score.createdAt.toString().substring(0, 19).replace("T", " ")}</td>
                     </tr>
                   );
                 })}
