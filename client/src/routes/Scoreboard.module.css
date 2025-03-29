@@ -1,0 +1,53 @@
+.container-main {
+  display: flex;
+  flex-flow: column wrap;
+  align-self: center;
+  gap: 1dvh;
+  border: 5px solid thistle;
+  justify-self: flex-start;
+  flex: 0 1 auto;
+  margin: 5dvh 0;
+  width: 60dvw;
+  justify-content: center;
+  align-items: center;
+  padding: 2dvh 0;
+  background-color: rgb(208, 224, 255);
+}
+
+.filler {
+  flex: 1 1 auto;
+}
+
+.container-table {
+  background-color: rgb(255, 241, 241);
+  border: 1px solid pink;
+  padding: 0.5dvh;
+}
+
+.table-scoreboard th {
+  background-color: rgb(179, 179, 255);
+}
+
+.table-scoreboard,
+.table-scoreboard tr,
+.table-scoreboard td,
+.table-scoreboard th {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.table-scoreboard td {
+  width: 15dvw;
+}
+
+caption {
+  text-align: center;
+}
+
+.table-scoreboard tr:nth-child(even) {
+  background-color: aliceblue;
+}
+
+.table-scoreboard tr:nth-child(odd) {
+  background-color: rgb(255, 215, 227);
+}

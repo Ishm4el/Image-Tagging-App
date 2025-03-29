@@ -44,37 +44,53 @@ export default function Scoreboard(): React.ReactElement {
   }, []);
 
   if (error) return <p>A network error occured! {error}</p>;
-  if (scoreboard)
+  if (scoreboard?.scoreboard.length === 0) {
     return (
       <main className={styles["container-main"]}>
-        <header>
-          <h1>{stage} Scoreboard</h1>
-        </header>
-        <section>
-          <div className={styles["container-table"]}>
-            <table>
-              <thead>
-                <tr>
-                  <th>User Name</th>
-                  <th>Score</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scoreboard.scoreboard.map((score) => {
-                  return (
-                    <tr>
-                      <td>{score.userName}</td>
-                      <td>{score.score}</td>
-                      <td>{score.createdAt.toString().substring(0, 19).replace("T", " ")}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        <p>There are no scores at the moment for this level...</p>
       </main>
+    );
+  }
+  if (scoreboard)
+    return (
+      <>
+        <main className={styles["container-main"]}>
+          <header>
+            <h1>{stage!.replace("_", " ")} Scoreboard</h1>
+          </header>
+          <section>
+            <div className={styles["container-table"]}>
+              <table className={styles["table-scoreboard"]}>
+                <caption>Scores</caption>
+                <thead>
+                  <tr>
+                    <th>User Name</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scoreboard.scoreboard.map((score) => {
+                    return (
+                      <tr>
+                        <td>{score.userName}</td>
+                        <td>{score.score}</td>
+                        <td>
+                          {score.createdAt
+                            .toString()
+                            .substring(0, 19)
+                            .replace("T", " ")}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+        <div className={styles.filler}></div>
+      </>
     );
   return <p>loading</p>;
 }
