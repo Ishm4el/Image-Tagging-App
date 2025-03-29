@@ -15,8 +15,9 @@ const CardLevelOption = (props: { stages: stages }): React.ReactElement[] => {
       "images/level_thumbnails/small_level_" + levelNumber + ".jpg";
     return (
       <div className={styles["card-stage"]} key={stageData.title}>
-        <div className={styles["card-stage-top"]}></div>
-        <img src={thumbnailLink} alt={thumbnailLink} />
+        <div className={styles["card-stage-top"]}>
+          <img src={thumbnailLink} alt={thumbnailLink} />
+        </div>
         <div className={styles["card-stage-bottom"]}>
           <h2>{stageData.title}</h2>
           <button
