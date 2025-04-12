@@ -8,14 +8,26 @@ const getStages: RequestHandler = asyncHandler(
       orderBy: { title: "asc" },
       include: { scoreboard: { orderBy: { score: "desc" }, take: 1 } },
     });
-    return res.json(rows);
+
+    if (!rows) {
+      res.status(404).json({ error: "Stages could not be found" });
+      return;
+    }
+
+    res.json(rows);
   }
 );
 
 const getStagesOnly: RequestHandler = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const rows = await prisma.levels.findMany({ orderBy: { title: "asc" } });
-    return res.json(rows);
+
+    if (!rows) {
+      res.status(404).json({ error: "Stages could not be found" });
+      return;
+    }
+
+    res.json(rows);
   }
 );
 
@@ -25,7 +37,15 @@ const getBasicStage: RequestHandler = asyncHandler(
     const row = await prisma.letter.findMany({
       where: { leveltitle: levelName },
     });
-    return res.json(row);
+
+    if (!row) {
+      res
+        .status(404)
+        .json({ error: "Letters for the stage could not be found" });
+      return;
+    }
+
+    res.json(row);
   }
 );
 
@@ -38,6 +58,12 @@ const getStageScoreboard: RequestHandler = asyncHandler(
         scoreboard: { orderBy: [{ score: "asc" }, { createdAt: "desc" }] },
       },
     });
+
+    if (!levelData) {
+      res.status(404).json({ error: "Stage scoreboard was not found" });
+      return;
+    }
+
     console.log("in getStageScoreboard\nPrinting levelData: ", levelData);
 
     res.json(levelData);

@@ -68,13 +68,24 @@ const confirmVictory: RequestHandler = asyncHandler(
     const currentTime = Math.floor(Date.now() / 1000);
     const tokens: Array<string> = req.body.tokens;
     const levelToken: string = req.body.levelToken;
-    const decodedLevelToken: string | JwtPayload = decodeToken(levelToken);
+    const decodedLevelToken: string | JwtPayload | undefined =
+      decodeToken(levelToken);
+
+    if (!decodedLevelToken) {
+      res.status(498).json({ error: "Token has expired" });
+      return;
+    }
     console.log("decodedLevelToken: ", decodedLevelToken);
 
     let victory = true;
     tokens.forEach((token) => {
       const decodedToken = decodeToken(token);
-      const payload: verifyVictory | undefined = isPayload(decodedToken)
+      if (!decodedToken) {
+        res.status(498).json({ error: "Token has expired" });
+        return;
+      }
+
+      const payload: verifyVictory | undefined = isPayload(decodedToken!)
         ? decodedToken
         : undefined;
       if (
@@ -126,6 +137,10 @@ interface finalToken extends verifyLevelToken {
 const complete: RequestHandler = asyncHandler(
   async (req: Request, res: Response) => {
     const finalToken = decodeToken(req.body.finalToken) as finalToken;
+    if (!finalToken) {
+      res.status(498).json({ error: "Token has expired" });
+      return;
+    }
     const userName = req.body.userName;
 
     const row = await prisma.score.create({

@@ -9,8 +9,18 @@ const secret: jwt.Secret =
     : "secret";
 
 const signToken = (payload: object) =>
-  jwt.sign(payload, secret, { expiresIn: "10m" });
+  jwt.sign(payload, secret, { expiresIn: "2s" });
 
-const decodeToken = (token: string) => jwt.verify(token, secret);
+const decodeToken = (token: string) => {
+  try {
+    return jwt.verify(token, secret);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("An unknown error occured: ", error);
+    }
+  }
+};
 
 export { signToken, decodeToken };
