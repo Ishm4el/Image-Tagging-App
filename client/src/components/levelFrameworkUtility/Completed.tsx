@@ -9,6 +9,16 @@ const Completed = ({
   finalToken: string;
 }) => {
   const [results, setResults] = useState<any>();
+  const [error, setError] = useState(false);
+  if (error) {
+    return (
+      <main className={styles["container-main"]}>
+        <section className={styles["section-results"]}>
+          <p>There was a server error!</p>
+        </section>
+      </main>
+    );
+  }
   return (
     <main className={styles["container-main"]}>
       <h1>{levelTitle}</h1>
@@ -67,6 +77,7 @@ const Completed = ({
             })
               .then((res) => {
                 if (res.status >= 400) {
+                  setError(true);
                   throw new Error("Server Error");
                 }
                 return res.json();

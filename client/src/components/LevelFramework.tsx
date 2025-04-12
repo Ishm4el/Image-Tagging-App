@@ -27,7 +27,7 @@ export default function LevelFramework(): React.ReactElement {
       setLevelToken,
     });
 
-    useGameCompleted({ letters, levelToken, setCompleted });
+    useGameCompleted({ letters, levelToken, setCompleted, setError });
 
     // display if there is an error
     if (error) {

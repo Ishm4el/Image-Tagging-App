@@ -9,7 +9,7 @@ const secret: jwt.Secret =
     : "secret";
 
 const signToken = (payload: object) =>
-  jwt.sign(payload, secret, { expiresIn: "2s" });
+  jwt.sign(payload, secret, { expiresIn: "10m" });
 
 const decodeToken = (token: string) => {
   try {

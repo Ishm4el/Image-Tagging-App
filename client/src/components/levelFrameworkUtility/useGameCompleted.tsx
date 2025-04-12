@@ -4,10 +4,12 @@ const useGameCompleted = ({
   letters,
   levelToken,
   setCompleted,
+  setError,
 }: {
   letters: Array<any>;
   levelToken: string;
   setCompleted: React.Dispatch<any>;
+  setError: React.Dispatch<any>;
 }) => {
   useEffect(() => {
     console.log("checking if the game is completed");
@@ -34,7 +36,10 @@ const useGameCompleted = ({
         }),
       })
         .then((response) => {
-          if (response.status >= 400) throw new Error("server error");
+          if (response.status >= 400) {
+            setError(true);
+            throw new Error("server error");
+          }
           console.log(response);
           return response.json();
         })
